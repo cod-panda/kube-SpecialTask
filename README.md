@@ -79,7 +79,7 @@ Test task to learn kubes
 
 4. Github
 
-	4.1 (1.2) Find out https clone wan't the best option for console. Change to ssh auth, generate new key, add the key on github.
+	4.1 (1.2) Find out https clone wasn't the best option for console. Change to ssh auth, generate new key, add the key on github.
 	
 	`git clone git@github.com:cod-panda/kube-SpecialTask.git`
 
