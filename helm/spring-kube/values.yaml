@@ -1,0 +1,29 @@
+---
+
+namespace: springs
+name: springdemo
+selector: springdemo
+
+image:
+  repository: "docker.io/cod4panda"
+  image:      "springboot_app:demo"
+  pullPolicy: "IfNotPresent"
+
+appspecs:
+  replicas: 2
+  revisionsLimit: 7
+
+strategy:
+  additionalReplicas: 1
+  maxUnavailable: 1
+  type: RollingUpdate
+
+service:
+  type: LoadBalancer
+  nodePort: 31162
+  Port: 8080
+  targetPort: 8080
+  path: "/hello"
+  failures: 3
+
+...

@@ -1,0 +1,24 @@
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: {{ .Values.selector }}
+  name: {{ .Values.name }}
+  namespace: {{ default "default" .Values.namespace }}
+spec:
+  allocateLoadBalancerNodePorts: true
+  ipFamilies:
+  - IPv4
+  ports:
+  - nodePort: {{ default 300001 .Values.service.nodePort }}
+    port: {{ default 8080 .Values.service.Port }}
+    protocol: TCP
+    targetPort: {{ default 8080 .Values.service.targetPort }}
+  selector:
+    app: {{ .Values.selector }}
+  sessionAffinity: None
+  type: {{ .Values.service.type }}
+
+

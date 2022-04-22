@@ -215,4 +215,3 @@ Test task to learn kubes
 	Helm
 	CI/CD (Jenkins?)
 	Terraform
-	Fix deployment: 2 replicas, use namespace

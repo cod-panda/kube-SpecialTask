@@ -1,0 +1,12 @@
+---
+
+apiVersion: v2
+description: A task to create a spring application.
+name: springdemo
+version: "1.0"
+mainteiners:
+  - name:  cod-panda
+appversion: 0.1.0
+icon: "https://cdn.icon-icons.com/icons2/3123/PNG/128/forest_tree_nature_garden_wood_spring_icon_191955.png"
+
+...
