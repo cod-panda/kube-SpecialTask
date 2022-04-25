@@ -212,3 +212,6 @@ Test task to learn kubes
 			
 
 ## TODO:
+	Helm
+	CI/CD (Jenkins?)
+	Terraform
