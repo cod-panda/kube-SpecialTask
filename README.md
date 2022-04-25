@@ -181,7 +181,16 @@ Test task to learn kubes
 		*	targetPort: 8080	pod
 
 
-	9.4 Check deployment results
+	9.4 Use linter
+	
+	`$ kubeval full_spring_demo.yaml`
+	
+		PASS - full_spring_demo.yaml contains a valid Deployment (default.springdemo)
+		PASS - full_spring_demo.yaml contains a valid Service (default.springdemo)
+
+	9.5 Check deployment results
+
+	`$ kubectl apply -f full_spring_demo.yaml  --record`
 
 	`$ kubectl get pods -o wide`
 	
@@ -190,8 +199,6 @@ Test task to learn kubes
 		springdemo-6c8bc57f56-4mflw   1/1     Running   0          8m29s   172.17.0.10   minikube   <none>           <none>
 		springdemo-6c8bc57f56-zzxkd   1/1     Running   0          8m32s   172.17.0.6    minikube   <none>           <none>
 
-	`$ kubectl apply -f full_spring_demo.yaml  --record`
-		
 	`$ kubectl rollout history deployment.apps/springdemo`
 	
 		deployment.apps/springdemo
