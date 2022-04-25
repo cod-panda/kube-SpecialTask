@@ -81,7 +81,7 @@ Test task to learn kubes
 
 	4.1 (1.2) Find out https clone wasn't the best option for console. Change to ssh auth, generate new key, add the key on github.
 	
-	`git clone git@github.com:cod-panda/kube-SpecialTask.git`
+	`$ git clone git@github.com:cod-panda/kube-SpecialTask.git`
 
 5. Git
 
@@ -97,7 +97,111 @@ Test task to learn kubes
 	
 	5.6 Fix Markdown on the README
 
+
+## Day 4 
+
+6. DockerHub
+
+	6.1 Create docketHub account.
+	
+	6.2 Create repo cod4panda/springboot_app
+	
+## Day 5
+
+7. DockerHub upload exersises
+
+	7.1 Docker upload exersises
+	
+	`$ docker login`
+	
+	`$ docker image build -t springboot_app/demo:v1 .`
+	
+	`$ docker tag springboot_app/demo:v1 cod4panda/springboot_app:demo`
+	
+	`$ docker push cod4panda/springboot_app:demo`
+
+	`$ docker pull cod4panda/springboot_app:demo`	
+	
+	`$ docker search  cod4panda/springboot_app`
+	
+		NAME                       DESCRIPTION                              STARS     OFFICIAL   AUTOMATED
+		cod4panda/springboot_app   Springboot simple app based on openjdk   0	
+
+8. VS Code
+
+	8.1 Install VS Code as it seems to be the standard for DevOps helping to cope the numerous yaml creations.
+
+9. k8s
+
+	9.1 Install kube linter from https://www.kubeval.com/installation/
+
+	`$ wget https://github.com/instrumenta/kubeval/releases/latest/download/kubeval-linux-amd64.tar.gz`
+		
+	`$ tar xf kubeval-linux-amd64.tar.gz`
+		
+	`$ sudo cp kubeval /usr/local/bin`
+		
+	9.2 Work with kubernetes
+	
+	`$ kubectl create deployment springdemo --image=docker.io/cod4panda/springboot_app:demo`
+		
+	`$ kubectl expose deployment springdemo --type=LoadBalancer --port 8080`
+		
+	>  Specific for minicube to get the "external IP" one need to use:
+		`$ minikube service springdemo --url`
+			
+	`$ minikube service springdemo --url`
+	
+		http://192.168.49.2:31162
+		
+
+	`$ curl -v http://192.168.49.2:31162/hello?name=KD`
+
+		<h1>Hello KD!</h1> <br><br> Version 1.0
+			
+	9.3 Fix deployment: use edit to get the template and change some parameters
+
+	`$ kubectl edit deployment springdemo`
+	
+	`$ kubectl edit service springdemo`
+		
+	Change:
+	
+		* Put everything in the same yaml (just because the deployment is small, not a good idea for big projects)
+		* replicas: 3 - to have redundant set of replicas (single pod failure will not affect)
+		* revisionHistoryLimit: 5 - to be able track 5 last rollouts
+		* maxSurge: 1 - we want only one extra pod for the rollout, resources are low on the VM
+		* maxUnavailable: 1 - we want only one pod to be deleted same time in rollouts
+		* type: RollingUpdate - want to update pods one by one during rollout
+
+
+		* The ports would be like
+		* 	nodePort: 31162		external port
+		*	port: 8080		service
+		*	targetPort: 8080	pod
+
+
+	9.4 Check deployment results
+
+	`$ kubectl get pods -o wide`
+	
+		NAME                          READY   STATUS    RESTARTS   AGE     IP            NODE       NOMINATED NODE   READINESS GATES
+		springdemo-6c8bc57f56-2zwc4   1/1     Running   0          8m32s   172.17.0.8    minikube   <none>           <none>
+		springdemo-6c8bc57f56-4mflw   1/1     Running   0          8m29s   172.17.0.10   minikube   <none>           <none>
+		springdemo-6c8bc57f56-zzxkd   1/1     Running   0          8m32s   172.17.0.6    minikube   <none>           <none>
+
+	`$ kubectl apply -f full_spring_demo.yaml  --record`
+		
+	`$ kubectl rollout history deployment.apps/springdemo`
+	
+		deployment.apps/springdemo
+		REVISION  CHANGE-CAUSE
+		1         <none>
+		2         kubectl apply --filename=full_spring_demo.yaml --record=true
+			
+	`$ kubectl rollout status deployment.apps/springdemo`
+	
+		deployment "springdemo" successfully rolled out			
+			
+
 ## TODO:
-	1. Push docker image (to register on the docker hub) 
-	2. Create Kube deployment with the docker image
-	3. Think of the deployment strategy
