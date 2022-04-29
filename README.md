@@ -209,9 +209,71 @@ Test task to learn kubes
 	`$ kubectl rollout status deployment.apps/springdemo`
 	
 		deployment "springdemo" successfully rolled out			
-			
 
+## Day 6
+	
+10. Helm
+	10.1 Modify the initial k8s yaml and make it several Helm templates
+	
+	10.2 Use linter
+	
+	`$ helm lint spring-kube`
+	
+		==> Linting spring-kube
+		1 chart(s) linted, 0 chart(s) failed
+
+	10.3 Check what would be generated 
+	
+	`$ helm template spring-kube`
+	
+	10.4 Deploy test application
+	
+	`helm install springs spring-kube`
+
+		NAME: springs
+		LAST DEPLOYED: Fri Apr 22 18:36:22 2022
+		NAMESPACE: default
+		STATUS: deployed
+		REVISION: 1
+		TEST SUITE: None
+
+	10.5 Check on k8s side
+
+	`$ kubectl config set-context --current --namespace=springs`
+		
+		Context "minikube" modified.
+	
+	`$ kubectl get all`
+		
+		NAME                              READY   STATUS    RESTARTS   AGE
+		pod/springdemo-7694b9b8b6-glw7l   1/1     Running   0          72s
+		pod/springdemo-7694b9b8b6-p6967   1/1     Running   0          72s
+		
+		NAME                 TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+		service/springdemo   LoadBalancer   10.105.68.46   <pending>     8080:31162/TCP   72s
+
+		NAME                         READY   UP-TO-DATE   AVAILABLE   AGE
+		deployment.apps/springdemo   2/2     2            2           72s
+
+		NAME                                    DESIRED   CURRENT   READY   AGE
+		replicaset.apps/springdemo-7694b9b8b6   2         2         2       72s
+		
+	10.6 Some repo tests
+
+	`$ helm repo add banzaicloud-stable https://kubernetes-charts.banzaicloud.com`
+	
+	`$ helm repo list`
+
+		NAME              	URL
+		banzaicloud-stable	https://kubernetes-charts.banzaicloud.com
+	
+	`$ helm search repo  spring-boot`
+	
+		NAME                          	CHART VERSION	APP VERSION	DESCRIPTION
+		banzaicloud-stable/spring-boot	0.0.5        	           	Run the simple spring-boot application
+
+	`$ helm install my-spring-boot banzaicloud-stable/spring-boot --version 0.0.5`
+		
 ## TODO:
-	Helm
 	CI/CD (Jenkins?)
 	Terraform
