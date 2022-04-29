@@ -213,6 +213,7 @@ Test task to learn kubes
 ## Day 6
 	
 10. Helm
+
 	10.1 Modify the initial k8s yaml and make it several Helm templates
 	
 	10.2 Use linter
