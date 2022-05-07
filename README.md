@@ -274,7 +274,24 @@ Test task to learn kubes
 		banzaicloud-stable/spring-boot	0.0.5        	           	Run the simple spring-boot application
 
 	`$ helm install my-spring-boot banzaicloud-stable/spring-boot --version 0.0.5`
+	
+## Day 7
+	
+11. Terraform
+
+	11.1 Prepare Terraform file, keeping certificates and keys in the terraform.tfvars (not pushing to git).
+	
+	11.2 Try
+	
+	`$ terraform init`
+	
+	`$ terraform validate`
+	
+		Success! The configuration is valid.
+	
+	`$ terraform plan`
+	
 		
 ## TODO:
 	CI/CD (Jenkins?)
-	Terraform
+	Terraform (confirm its working)
