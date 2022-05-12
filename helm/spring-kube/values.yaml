@@ -6,7 +6,7 @@ selector: springdemo
 
 image:
   repository: "docker.io/cod4panda"
-  image:      "springboot_app@sha256:aa53d8ec89a2ec85875f91b5fdb90d288f392d6e17003e8c2258586ee8c81739"
+  image:      "springboot_app:0.1.2"
   pullPolicy: "IfNotPresent"
 
 appspecs:

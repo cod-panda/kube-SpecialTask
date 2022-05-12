@@ -17,7 +17,7 @@
                   
                   @GetMapping("/hello")
                   public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
-                  return String.format("<h1>Hello %s!</h1> <br><br> Version 1.0", name);
+                  return String.format("<h1>Hello %s!</h1> <br><br> Version 0.1.2", name);
                   }
                 
               }

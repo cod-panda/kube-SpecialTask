@@ -37,7 +37,7 @@ resource "kubernetes_deployment" "springdemo" {
       }
       spec {
         container {
-          image = "docker.io/cod4panda/springboot_app:demo"
+          image = "docker.io/cod4panda/springboot_app:0.1.2"
           name  = "springboot"
           image_pull_policy = "IfNotPresent"
           liveness_probe {
