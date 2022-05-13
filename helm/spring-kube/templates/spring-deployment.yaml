@@ -6,7 +6,12 @@ metadata:
   name: {{ .Values.name }}
   namespace: {{ default "default" .Values.namespace }}
   labels:
-    app: {{ .Values.selector }}
+    app:                            {{ .Values.selector }}
+    app.kubernetes.io/name:         {{ .Values.name }}
+    helm.sh/chart:                  {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    app.kubernetes.io/managed-by:   {{ .Release.Service }}
+    meta.helm.sh/release-name:      {{ .Values.name }}
+    meta.helm.sh/release-namespace: {{ .Values.namespace }}
 spec:
   replicas: {{ default 3 .Values.appspecs.replicas }}
   revisionHistoryLimit: {{ default 5 .Values.appspecs.revisionsLimit }}

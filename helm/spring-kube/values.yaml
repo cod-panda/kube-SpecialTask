@@ -1,8 +1,8 @@
 ---
 
+name:      springs
 namespace: springs
-name: springdemo
-selector: springdemo
+selector:  springs
 
 image:
   repository: "docker.io/cod4panda"
@@ -15,7 +15,7 @@ appspecs:
 
 strategy:
   additionalReplicas: 1
-  maxUnavailable: 1
+  maxUnavailable: 0
   type: RollingUpdate
 
 service:
@@ -24,6 +24,6 @@ service:
   Port: 8080
   targetPort: 8080
   path: "/hello"
-  failures: 3
+  failures: 1
 
 ...

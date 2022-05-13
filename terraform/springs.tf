@@ -23,7 +23,8 @@ resource "kubernetes_deployment" "springdemo" {
     namespace = kubernetes_namespace.springdemo.metadata.0.name
   }
   spec {
-    replicas = 2
+    replicas                  = 2
+    progress_deadline_seconds = 60
     selector {
       match_labels = {
         app = "springdemo"
@@ -37,8 +38,8 @@ resource "kubernetes_deployment" "springdemo" {
       }
       spec {
         container {
-          image = "docker.io/cod4panda/springboot_app:0.1.2"
-          name  = "springboot"
+          image             = "docker.io/cod4panda/springboot_app:0.1.2"
+          name              = "springboot"
           image_pull_policy = "IfNotPresent"
           liveness_probe {
             failure_threshold = 3
@@ -65,7 +66,8 @@ resource "kubernetes_service" "springdemo" {
     selector = {
       app = kubernetes_deployment.springdemo.spec.0.template.0.metadata.0.labels.app
     }
-    type = "NodePort"
+#    type = "NodePort"
+    type = "LoadBalancer"
     port {
       node_port   = 31162
       port        = 8080
