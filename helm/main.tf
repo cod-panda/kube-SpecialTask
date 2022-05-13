@@ -9,10 +9,10 @@ provider "helm" {
 }
 
 resource "helm_release" "springdemo" {
-  name  = "springs"
-  chart = "./spring-kube"
+  name            = "springs"
+  chart           = "./spring-kube"
   cleanup_on_fail = true
-  timeout = 60
-  wait = false
-  lint = true
+  timeout         = 60
+  wait            = false
+  lint            = true
 }
