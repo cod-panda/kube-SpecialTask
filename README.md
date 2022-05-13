@@ -291,7 +291,56 @@ Test task to learn kubes
 	
 	`$ terraform plan`
 	
+	`$ terraform apply`
+	
+## Day 8
+
+12. New App version
+
+	`$ docker build -t "springboot_app/demo:v0.1.2" .`
+
+	`$ docker tag "springboot_app/demo:v0.1.2" "cod4panda/springboot_app:0.1.2"`
+
+	`$ docker push "cod4panda/springboot_app:0.1.2"`
+
+
+
+	`$ kubectl apply -f full_spring_demo.yaml`
+
+	`$ kubectl config set-context --current --namespace=springs`
+
+	`$ minikube service springdemo -n springs --url`
+
+	`$ curl http://192.168.49.2:31162/hello?name=w`
+
+	`$ kubectl rollout status  deployment.apps/springdemo`
+
+	`$ kubectl rollout history  deployment.apps/springdemo`
+
+	`$ kubectl delete  deployment.apps/springdemo`
+
+	`$ kubectl delete  service/springdemo`
+
+	`$ kubectl config set-context --current --namespace=default`
+
+	`$ kubectl delete ns springs`
+
+
+
+	`$ helm install springs spring-kube`
+
+	`$ helm uninstall springs`
+
+
+
+	`$ terraform validate`
+
+	`$ terraform plan`
+
+	`$ terraform apply`
+
+	`$ terraform destroy`
+	
 		
 ## TODO:
 	CI/CD (Jenkins?)
-	Terraform (confirm its working)
