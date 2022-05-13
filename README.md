@@ -277,7 +277,7 @@ Test task to learn kubes
 	
 ## Day 7
 	
-11. Terraform
+11. Terraform solo without the Helm
 
 	11.1 Prepare Terraform file, keeping certificates and keys in the terraform.tfvars (not pushing to git).
 	
@@ -332,14 +332,90 @@ Test task to learn kubes
 	`$ helm uninstall springs`
 
 
+	`$ terraform init`
 
 	`$ terraform validate`
+	
+	`$ terraform fmt`	
 
 	`$ terraform plan`
 
 	`$ terraform apply`
 
 	`$ terraform destroy`
+		
+		
+13. Added Terraform in the Helm folder with the helm provider to use them together. 
+
+	Wait set to false because of minukube.
+	
+	`$ terraform init`
+
+	`$ terraform validate`
+	
+		Success! The configuration is valid.
+	
+	`$ terraform fmt`	
+
+	`$ terraform plan`
+	
+		Terraform used the selected providers to generate the following execution plan.
+		Resource actions are indicated with the following symbols:
+		  + create
+
+		Terraform will perform the following actions:
+
+		  # helm_release.springdemo will be created
+		  + resource "helm_release" "springdemo" {
+		      + atomic                     = false
+		      + chart                      = "./spring-kube"
+		      + cleanup_on_fail            = true
+		      + create_namespace           = false
+		      + dependency_update          = false
+		      + disable_crd_hooks          = false
+		      + disable_openapi_validation = false
+		      + disable_webhooks           = false
+		      + force_update               = false
+		      + id                         = (known after apply)
+		      + lint                       = true
+		      + manifest                   = (known after apply)
+		      + max_history                = 0
+		      + metadata                   = (known after apply)
+		      + name                       = "springs"
+		      + namespace                  = "default"
+		      + recreate_pods              = false
+		      + render_subchart_notes      = true
+		      + replace                    = false
+		      + reset_values               = false
+		      + reuse_values               = false
+		      + skip_crds                  = false
+		      + status                     = "deployed"
+		      + timeout                    = 60
+		      + verify                     = false
+		      + version                    = "0.1.2"
+		      + wait                       = false
+		      + wait_for_jobs              = false
+		    }
+
+		Plan: 1 to add, 0 to change, 0 to destroy.
+
+	`$ terraform apply`
+	
+		helm_release.springdemo: Creating...
+		helm_release.springdemo: Creation complete after 0s [id=springs]
+
+		Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
+	
+	`$ minikube service springs -n springs --url`
+	
+		http://192.168.49.2:31162
+		
+	`$ curl http://192.168.49.2:31162/hello?name=kgdhkf`
+
+		<h1>Hello kgdhkf!</h1> <br><br> Version 0.1.2
+
+	`$ terraform destroy`
+	
 	
 		
 ## TODO:
