@@ -416,7 +416,95 @@ Test task to learn kubes
 
 	`$ terraform destroy`
 	
-	
+## Day 9
+
+14. Adding Helm hook to test existence of the image: templates/tests/test-image.yaml
+
+	14.1 Installing the chart
+
+		$ helm install s . --debug
+			install.go:173: [debug] Original chart version: ""
+			install.go:190: [debug] CHART PATH: /home/k/kube-SpecialTask/helm/spring-kube
+
+			client.go:282: [debug] Starting delete for "s" Job
+			client.go:311: [debug] jobs.batch "s" not found
+			client.go:122: [debug] creating 1 resource(s)
+			client.go:491: [debug] Watching for changes to Job s with timeout of 5m0s
+			client.go:519: [debug] Add/Modify event for s: ADDED
+			client.go:558: [debug] s: Jobs active: 0, jobs failed: 0, jobs succeeded: 0
+			client.go:519: [debug] Add/Modify event for s: MODIFIED
+			client.go:558: [debug] s: Jobs active: 1, jobs failed: 0, jobs succeeded: 0
+			client.go:519: [debug] Add/Modify event for s: MODIFIED
+			client.go:558: [debug] s: Jobs active: 0, jobs failed: 0, jobs succeeded: 0
+			client.go:519: [debug] Add/Modify event for s: MODIFIED
+			client.go:282: [debug] Starting delete for "s" Job
+			client.go:122: [debug] creating 3 resource(s)
+			NAME: s
+			LAST DEPLOYED: Tue May 17 17:59:14 2022
+			NAMESPACE: default
+			STATUS: deployed
+			REVISION: 1
+			TEST SUITE: None
+			USER-SUPPLIED VALUES:
+			{}
+			
+		$ helm list
+			NAME	NAMESPACE	REVISION	UPDATED                                	STATUS  	CHART           	APP VERSION
+			s   	default  	1       	2022-05-17 17:59:14.570096317 +0300 MSK	deployed	springdemo-0.1.2	0.1.2
+
+	14.2 Changing the "image" in the values.yaml from "0.1.2" to something bad like "0.1.2.ldjhfkjdh"
+
+		$ helm upgrade s . --debug
+			upgrade.go:123: [debug] preparing upgrade for s
+			upgrade.go:131: [debug] performing update for s
+			upgrade.go:303: [debug] creating upgraded release for s
+			client.go:282: [debug] Starting delete for "s" Job
+			client.go:311: [debug] jobs.batch "s" not found
+			client.go:122: [debug] creating 1 resource(s)
+			client.go:491: [debug] Watching for changes to Job s with timeout of 5m0s
+			client.go:519: [debug] Add/Modify event for s: ADDED
+			client.go:558: [debug] s: Jobs active: 0, jobs failed: 0, jobs succeeded: 0
+			client.go:519: [debug] Add/Modify event for s: MODIFIED
+			client.go:558: [debug] s: Jobs active: 1, jobs failed: 0, jobs succeeded: 0
+			upgrade.go:369: [debug] warning: Upgrade "s" failed: pre-upgrade hooks failed: timed out waiting for the condition
+			Error: UPGRADE FAILED: pre-upgrade hooks failed: timed out waiting for the condition
+			helm.go:81: [debug] pre-upgrade hooks failed: timed out waiting for the condition
+			UPGRADE FAILED
+
+		$ helm list
+			NAME	NAMESPACE	REVISION	UPDATED                                	STATUS	CHART           	APP VERSION
+			s   	default  	2       	2022-05-17 18:00:03.165032536 +0300 MSK	failed	springdemo-0.1.2	0.1.2
+
+	14.3 Rolling back 
+
+		$ helm rollback s  --debug
+			rollback.go:65: [debug] preparing rollback of s
+			rollback.go:113: [debug] rolling back s (current: v2, target: v1)
+			rollback.go:72: [debug] creating rolled back release for s
+			rollback.go:78: [debug] performing rollback of s
+			client.go:282: [debug] Starting delete for "s" Job
+			client.go:122: [debug] creating 1 resource(s)
+			client.go:491: [debug] Watching for changes to Job s with timeout of 5m0s
+			client.go:519: [debug] Add/Modify event for s: ADDED
+			client.go:558: [debug] s: Jobs active: 0, jobs failed: 0, jobs succeeded: 0
+			client.go:519: [debug] Add/Modify event for s: MODIFIED
+			client.go:558: [debug] s: Jobs active: 1, jobs failed: 0, jobs succeeded: 0
+			client.go:519: [debug] Add/Modify event for s: MODIFIED
+			client.go:558: [debug] s: Jobs active: 0, jobs failed: 0, jobs succeeded: 0
+			client.go:519: [debug] Add/Modify event for s: MODIFIED
+			client.go:282: [debug] Starting delete for "s" Job
+			client.go:201: [debug] checking 3 resources for changes
+			client.go:464: [debug] Looks like there are no changes for Namespace "springs"
+			client.go:464: [debug] Looks like there are no changes for Service "springs"
+			client.go:464: [debug] Looks like there are no changes for Deployment "springs"
+			rollback.go:233: [debug] superseding previous deployment 1
+			rollback.go:84: [debug] updating status for rolled back release for s
+			Rollback was a success! Happy Helming!
+			
+		$ helm list
 		
+			NAME	NAMESPACE	REVISION	UPDATED                                	STATUS  	CHART           	APP VERSION
+			s   	default  	3       	2022-05-17 18:07:54.602957235 +0300 MSK	deployed	springdemo-0.1.2	0.1.2
+
 ## TODO:
 	CI/CD (Jenkins?)
